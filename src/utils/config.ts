@@ -7,6 +7,10 @@ dotenv.config({ path: path });
 
 node_env = new String(process.env['NODE_ENV']);
 switch (node_env.toUpperCase()) {
+    case "LOCAL":
+        path = resolve('${__dirname}../../src/.envLocal');
+        ambiente = 'LOCAL';
+        break;
     case "DEV":
         path = resolve('${__dirname}../../src/.envDev');
         ambiente = 'DESARROLLO';
@@ -24,8 +28,8 @@ switch (node_env.toUpperCase()) {
         ambiente = 'PRODUCCION';
         break;
     default:
-        path = resolve('${__dirname}../../src/.envDev');
-        ambiente = 'DESARROLLO';
+        path = resolve('${__dirname}../../src/.envLocal');
+        ambiente = 'LOCAL';
 }
 dotenv.config({ path: path });
 process.env['AMBIENTE'] = ambiente;
