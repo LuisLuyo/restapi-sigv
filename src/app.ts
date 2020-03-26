@@ -4,10 +4,11 @@ import indexRoutes from './routes/index';
 
 const app: Application = express();
 
-// Routes
-app.use(indexRoutes);
 // middlewares
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
+
+// Routes
+app.use(indexRoutes);
 
 export default app;

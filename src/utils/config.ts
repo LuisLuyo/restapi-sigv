@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { resolve } from "path";
-let ambiente,path,node_env;
+let ambiente, path, node_env;
 //Load environment variables
 path = resolve('${__dirname}../../src/.env');
 dotenv.config({ path: path });

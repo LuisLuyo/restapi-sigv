@@ -1,6 +1,47 @@
 import { Request, Response } from 'express';
 import { pool } from '../database';
 import { QueryResult } from 'pg';
+import { OutputResponse } from '../class/OutputResponse';
+
+export const getPrueba = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    return res.status(200).json({ text: 'Rosmery Cordova Fernández eres una niña muy linda, atte. Pol ;)!' });
+  } catch (e) {
+      console.log(e);
+      return res.status(500).json('Internal Server error');
+  }
+};
+
+export const iniciaSession = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const { usuario, clave, uniquedeviceid } = req.body;
+      //const response: QueryResult = await pool.query('SELECT json_agg(sigv_seguridad.inicia_session ($1, $2, $3)) as data;', [usuario.toUpperCase(),clave.toUpperCase(),uniquedeviceid.toUpperCase()]);
+      const response: QueryResult = await pool.query('SELECT row_to_json(sigv_seguridad.inicia_session ($1, $2, $3)) as data;', [usuario.toUpperCase(),clave.toUpperCase(),uniquedeviceid.toUpperCase()]);
+      //const response: QueryResult = await pool.query('SELECT to_json(sigv_seguridad.inicia_session ($1, $2, $3));', [usuario.toUpperCase(),clave.toUpperCase(),uniquedeviceid.toUpperCase()]);
+      //const response: QueryResult = await pool.query('SELECT sigv_seguridad.inicia_session ($1, $2, $3);', [usuario.toUpperCase(),clave.toUpperCase(),uniquedeviceid.toUpperCase()]);
+      const rows = response.rows;
+      const data = rows[0].data;
+      console.log(data);
+      
+      if(!isEmptyObject(data)){
+        //const data = new OutputResponse("Success","Success","200","00","Token generado satisfactoriamente.","El Token se ha creado correctamente con el usuario y la clave ingresada.");
+        res.status(200);
+        return res.json(data);
+      }
+      else {
+        //const data = new OutputResponse("Warning","Unauthorized","401","01","Usuario/clave incorrecto, volver a intentar.","Las credenciales del usuario/clave son inválidos.");
+        res.status(401);
+        return res.json(response);
+      }
+    } catch (e) {//console.error(e.stack);
+      const message = new String(e.message);
+      const description = new String(e.code + ': ' + e.routine + ' - ' + e.hint);
+      const data = new OutputResponse("Error","Fatal","500","02",message.toString(),description.toString());
+      console.log(e);
+      res.status(500);
+      return res.json(data);
+    }
+}
 
 export const getUsers = async (req: Request, res: Response): Promise<Response> => {
     try {
@@ -48,4 +89,13 @@ export const deleteUser = async (req: Request, res: Response) => {
         id
     ]);
     res.json(`User ${id} deleted Successfully`);
-};
+}; 
+
+function isEmptyObject(obj : any) {
+    for (var key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        return false;
+      }
+    }
+    return true;
+  }
