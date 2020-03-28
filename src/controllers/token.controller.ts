@@ -10,13 +10,13 @@ export const callVerifyToken = (req: Request, res: Response, next: NextFunction)
                     'jwt': jwt
                 }
             };
-            axios.post('http://localhost:4000/api/arquitectura/global/validateToken',{},config)
-            .then(function (response) {
-                //return res.status(response.status).json(response.data);
+            axios.post('http://' + process.env['TOKEN_HOSTNAME'] + ':' + process.env['TOKEN_PORT'] + '/api/arquitectura/global/validateToken',{},config)
+            .then(function (response) {//////////// Solo si es 200 
+                //console.log('Then');return res.status(response.status).json(response.data);
                 next();
             })
-            .catch(function (error) {
-                console.log(error);
+            .catch(function (error) {//////////// Si es diferente que 200
+                //console.log('catch');console.log(error);
                 return res.status(error.response.status).json(error.response.data);
             });
             /*.finally(function () {

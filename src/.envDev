@@ -1,4 +1,6 @@
-# API SECRET KEY
+# Json Web Token
+TOKEN_HOSTNAME=docker-jwt
+TOKEN_PORT=4000
 TOKEN_KEY=my_secret_key_dev
 TOKEN_EXP=5m
 

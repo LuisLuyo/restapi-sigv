@@ -22,7 +22,6 @@ export const iniciaSession = async (req: Request, res: Response): Promise<Respon
       const rows = response.rows;
       const data = rows[0].data;
       console.log(data);
-      
       if(!isEmptyObject(data)){
         //const data = new OutputResponse("Success","Success","200","00","Token generado satisfactoriamente.","El Token se ha creado correctamente con el usuario y la clave ingresada.");
         res.status(200);
