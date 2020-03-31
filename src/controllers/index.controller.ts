@@ -16,7 +16,7 @@ export const iniciaSession = async (req: Request, res: Response): Promise<Respon
     try {
       const { usuario, clave, uniquedeviceid } = req.body;
       //const response: QueryResult = await pool.query('SELECT json_agg(sigv_seguridad.inicia_session ($1, $2, $3)) as data;', [usuario.toUpperCase(),clave.toUpperCase(),uniquedeviceid.toUpperCase()]);
-      const response: QueryResult = await pool.query('SELECT row_to_json(sigv_seguridad.inicia_session ($1, $2, $3)) as data;', [usuario.toUpperCase(),clave.toUpperCase(),uniquedeviceid.toUpperCase()]);
+      const response: QueryResult = await pool.query('SELECT row_to_json(sigv_seguridad.iniciasession ($1, $2, $3)) as data;', [usuario.toUpperCase(),clave.toUpperCase(),uniquedeviceid.toUpperCase()]);
       //const response: QueryResult = await pool.query('SELECT to_json(sigv_seguridad.inicia_session ($1, $2, $3));', [usuario.toUpperCase(),clave.toUpperCase(),uniquedeviceid.toUpperCase()]);
       //const response: QueryResult = await pool.query('SELECT sigv_seguridad.inicia_session ($1, $2, $3);', [usuario.toUpperCase(),clave.toUpperCase(),uniquedeviceid.toUpperCase()]);
       const rows = response.rows;
@@ -29,7 +29,7 @@ export const iniciaSession = async (req: Request, res: Response): Promise<Respon
       }
       else {
         //const data = new OutputResponse("Warning","Unauthorized","401","01","Usuario/clave incorrecto, volver a intentar.","Las credenciales del usuario/clave son inválidos.");
-        res.status(401);
+        res.status(404);
         return res.json(response);
       }
     } catch (e) {//console.error(e.stack);
