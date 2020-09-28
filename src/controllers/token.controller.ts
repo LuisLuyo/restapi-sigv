@@ -10,7 +10,7 @@ export const callVerifyToken = (req: Request, res: Response, next: NextFunction)
                     'jwt': jwt
                 }
             };
-            axios.post('http://' + process.env['TOKEN_HOSTNAME'] + ':' + process.env['TOKEN_PORT'] + '/api/arquitectura/global/validateToken',{},config)
+            axios.post('http://' + process.env['TOKEN_HOSTNAME'] + ':' + process.env['TOKEN_PORT'] + '/api/arquitectura/token/validateToken',{},config)
             .then(function (response) {//////////// Solo si es 200 
                 //console.log('Then');return res.status(response.status).json(response.data);
                 next();
