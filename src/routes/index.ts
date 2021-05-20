@@ -1,13 +1,13 @@
 import { Router } from 'express';
 const router = Router();
 
-import { iniciaSesion, getUsers, getUserById, createUser, updateUser, deleteUser, menu } from '../controllers/seguridad/index.controller';
+import { iniciaSesion, getUsers, getUserById, createUser, updateUser, deleteUser, menu, getPrueba } from '../controllers/seguridad/index.controller';
 import { callVerifyToken } from '../controllers/token.controller';
 import { buscarProducto, insertarProducto, listarCategoria, listarSubcategoria, listarMarca } from '../controllers/inventario/index.controller';
 
 /* Seguridad */
 router.post('/api/seguridad/login/iniciasesion', callVerifyToken, iniciaSesion);
-router.get('/thalia/esteesunmensajeparati', callVerifyToken,getUsers);
+router.get('/thalia/esteesunmensajeparati',getPrueba);
 
 router.get('/users', getUsers);
 router.get('/users/:id', getUserById);
